@@ -9,14 +9,12 @@ public class Hash {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] hashedBytes = messageDigest.digest(texto.getBytes(StandardCharsets.UTF_8));
+            byte hashedText[] = null;
 
-            // Convertir a representación hexadecimal
-            StringBuilder hexStringBuilder = new StringBuilder();
-            for (byte hashedByte : hashedBytes) {
-                hexStringBuilder.append(String.format("%02X", hashedByte));
-            }
+            messageDigest.update(hashedBytes);
+            hashedText = messageDigest.digest();
 
-            return hexStringBuilder.toString();
+            return new String(hashedText);
         } catch (Exception e) {
             e.printStackTrace();
             return null; // Manejo de errores
