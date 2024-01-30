@@ -1,6 +1,5 @@
 package Encriptacion;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -11,7 +10,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class Asymmetric_KeyGenerator {
 
-    public void generatePrivateKey(String directoryPath) {
+    public void generatePrivateKey() {
 
         KeyPairGenerator generator;
         try {
@@ -21,21 +20,15 @@ public class Asymmetric_KeyGenerator {
             PublicKey publicKey = keypair.getPublic();
             PrivateKey privateKey = keypair.getPrivate();
 
-            // Crear la carpeta si no existe
-            File directory = new File(directoryPath);
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-
             // Public
             X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey.getEncoded());
-            FileOutputStream fileOutputStream = new FileOutputStream(directoryPath + File.separator + "Public.key");
+            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\bayro\\Documents\\NetBeansProjects\\FitFlavorCliente\\src\\files\\Public.key");
             fileOutputStream.write(x509EncodedKeySpec.getEncoded());
             fileOutputStream.close();
 
             // Private
             PKCS8EncodedKeySpec pKCS8EncodedKeySpec = new PKCS8EncodedKeySpec(privateKey.getEncoded());
-            fileOutputStream = new FileOutputStream(directoryPath + File.separator + "Private.key");
+            fileOutputStream = new FileOutputStream("C:\\Users\\bayro\\Documents\\NetBeansProjects\\FitFlavorServidor\\src\\java\\files\\Private.key");
             fileOutputStream.write(pKCS8EncodedKeySpec.getEncoded());
             fileOutputStream.close();
         } catch (Exception e) {
@@ -45,9 +38,7 @@ public class Asymmetric_KeyGenerator {
 
     public static void main(String[] args) {
         Asymmetric_KeyGenerator asimetricoRSA_KeyGenerator = new Asymmetric_KeyGenerator();
-        // Especifica la ruta del directorio donde quieres crear la carpeta y los archivos
-        String directoryPath = "C:\\files";
-        asimetricoRSA_KeyGenerator.generatePrivateKey(directoryPath);
+        asimetricoRSA_KeyGenerator.generatePrivateKey();
         System.out.println("Ficheros de Clave Generados!");
     }
 }
