@@ -1,6 +1,8 @@
 package Encriptacion;
 
 import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
@@ -20,15 +22,20 @@ public class Asymmetric_KeyGenerator {
             PublicKey publicKey = keypair.getPublic();
             PrivateKey privateKey = keypair.getPrivate();
 
+            // Obtener el directorio actual como punto de partida para las rutas relativas
+            String userHomeDir = System.getProperty("user.home");
+
             // Public
             X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey.getEncoded());
-            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\bayro\\Documents\\NetBeansProjects\\FitFlavorCliente\\src\\files\\Public.key");
+            String publicFilePath = Paths.get(userHomeDir, "Public.key").toString();
+            FileOutputStream fileOutputStream = new FileOutputStream(publicFilePath);
             fileOutputStream.write(x509EncodedKeySpec.getEncoded());
             fileOutputStream.close();
 
             // Private
             PKCS8EncodedKeySpec pKCS8EncodedKeySpec = new PKCS8EncodedKeySpec(privateKey.getEncoded());
-            fileOutputStream = new FileOutputStream("C:\\Users\\bayro\\Documents\\NetBeansProjects\\FitFlavorServidor\\src\\java\\files\\Private.key");
+            String privateFilePath = Paths.get(userHomeDir, "Private.key").toString();
+            fileOutputStream = new FileOutputStream(privateFilePath);
             fileOutputStream.write(pKCS8EncodedKeySpec.getEncoded());
             fileOutputStream.close();
         } catch (Exception e) {
